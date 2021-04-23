@@ -1,5 +1,5 @@
 # Frontend UI for Erda platform.
-[![codecov](https://codecov.io/gh/daskyrk/cube-state/branch/codecov/graph/badge.svg)](https://codecov.io/gh/daskyrk/cube-state)
+[![codecov](https://codecov.io/gh/Zero-Rock/erda-ui/branch/codecov/graph/badge.svg)](https://codecov.io/gh/Zero-Rock/erda-ui)
 <div>
   <img src="./docs/files/logo.jpg" alt="logo" width="350">
 </div>
