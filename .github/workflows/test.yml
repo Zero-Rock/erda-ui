@@ -18,11 +18,20 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: install dependence for core
+        working-directory: './core'
+        run：npm install
 
       - name: Run Tests
-        run: .github/script/test.sh
-        shell: bash
+        working-directory: './shell'
+        uses: anna-money/github-actions-npm@v2
+        with:
+          target: 'test:coverage'
+
 
       - name: Codecov
+        working-directory: './shell'
         uses: codecov/codecov-action@v1.4.1
