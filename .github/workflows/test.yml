@@ -20,14 +20,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: switch to the shell directory
-
       - name: Run Tests
-        run: cd shell
-        uses: anna-money/github-actions-npm@v2
-        with:
-          target: test:coverage
+        run: ../script/test.sh
 
       - name: Codecov
-        run: cd shell
         uses: codecov/codecov-action@v1.4.1
