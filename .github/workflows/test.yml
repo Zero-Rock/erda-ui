@@ -21,12 +21,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: switch to the shell directory
-        run: cd shell
 
       - name: Run Tests
+        run: cd shell
         uses: anna-money/github-actions-npm@v2
-
-      - name: Codecov
-        uses: codecov/codecov-action@v1.4.1
         with:
           target: test:coverage
+
+      - name: Codecov
+        run: cd shell
+        uses: codecov/codecov-action@v1.4.1
