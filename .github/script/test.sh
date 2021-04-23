@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 cd ../../core
 echo 当前目录: $(pwd)
 
