@@ -21,7 +21,7 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2
 
-      - name:
+      - name: set-node
         uses: actions/setup-node@v1
           with:
             node-version: '12.x'
