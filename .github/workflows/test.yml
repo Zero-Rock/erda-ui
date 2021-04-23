@@ -26,9 +26,8 @@ jobs:
         working-directory: './core'
 
       - name: Run Tests
-        working-directory: '../shell'
+        working-directory: './shell'
         uses: anna-money/github-actions-npm@v2
-
 
       - name: Codecov
         uses: codecov/codecov-action@v1.4.1
