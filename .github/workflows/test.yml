@@ -28,15 +28,15 @@ jobs:
 
       - name: Install dependence for core
         run: |
-          npm -v
           npm ci
         working-directory: './core'
 
       - name: Run Tests
         working-directory: './shell'
         run: |
-          npm install
+          npm ci
           npm run test
 
       - name: Codecov
+        working-directory: './shell'
         uses: codecov/codecov-action@v1.4.1
