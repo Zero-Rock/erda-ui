@@ -22,7 +22,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install dependence for core
-        run: npm install
+        run: |
+          npm -v
+          npm install
         working-directory: './core'
 
       - name: Run Tests
