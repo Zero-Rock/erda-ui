@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run Tests
-        run: ../script/test.sh
+        run: .github/script/test.sh
 
       - name: Codecov
         uses: codecov/codecov-action@v1.4.1
