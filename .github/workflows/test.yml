@@ -23,6 +23,7 @@ jobs:
 
       - name: Install dependence for core
         run: |
+          npm i -g npm
           npm -v
           npm install
         working-directory: './core'
