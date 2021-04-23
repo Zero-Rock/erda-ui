@@ -28,8 +28,6 @@ jobs:
       - name: Run Tests
         working-directory: '../shell'
         uses: anna-money/github-actions-npm@v2
-        with:
-          target: 'test:coverage'
 
 
       - name: Codecov
