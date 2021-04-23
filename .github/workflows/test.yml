@@ -3,8 +3,10 @@ name: UNIT-TEST
 # Controls when the action will run.
 on:
   push:
-    branches: [ feature/* ]
+    branches: [ master ]
   pull_request:
+    branches: [ master ]
+  merge_request:
     branches: [ master ]
 
   workflow_dispatch:
