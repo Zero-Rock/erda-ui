@@ -8,6 +8,8 @@ on:
       - shell/app/common/**
   pull_request:
     branches: [ feature/* ]
+    paths:
+      - shell/app/common/**
 
   workflow_dispatch:
 
