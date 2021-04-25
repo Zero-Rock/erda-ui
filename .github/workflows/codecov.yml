@@ -7,7 +7,7 @@ on:
     paths:
       - shell/app/common/**
   pull_request:
-    branches: [ develop ]
+    branches: [ feature/* ]
 
   workflow_dispatch:
 
