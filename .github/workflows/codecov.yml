@@ -1,11 +1,11 @@
-name: UNIT-TEST
+name: codecov
 
 # Controls when the action will run.
 on:
   push:
-    branches: [ master ]
+    branches: [ develop ]
   pull_request:
-    branches: [ feature/* ]
+    branches: [ develop ]
 
   workflow_dispatch:
 
@@ -21,15 +21,15 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2
 
-      - name: set-node
+      - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
 
       - name: Install dependence for core
+        working-directory: './core'
         run: |
           npm ci
-        working-directory: './core'
 
       - name: Run Tests
         working-directory: './shell'

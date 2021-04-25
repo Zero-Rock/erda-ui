@@ -1,23 +1,12 @@
-codecov:
-  require_ci_to_pass: yes
-
-comment:                  # this is a top-level key
-  layout: "reach, diff, flags, files"
-  behavior: default
-  require_changes: false  # if true: only post the comment if coverage changes
-  require_base: no        # [yes :: must have a base report to post]
-  require_head: yes       # [yes :: must have a head report to post]
-#  branches:               # branch names that can post comment
-
 coverage:
   precision: 2
   round: down
-  range: "60...100"
+  range: "10...100"
   status:
     project:
       default:
         # basic
-        target: 50%
+        target: 20%
         threshold: 0%
         base: auto
         if_ci_failed: error
@@ -33,4 +22,5 @@ coverage:
         only_pulls: false
 
 github_checks:
+<<<<<<< HEAD
   annotations: true

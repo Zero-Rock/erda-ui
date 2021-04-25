@@ -20,7 +20,10 @@ import { TextDecoder, TextEncoder } from 'util'
 
 jest.mock('i18n', () => {
   return {
-    t: (str) => str
+    t: (str) => str.replace(/\S+\:/, '').trim(),
+    getCurrentLocale: ()=>({
+      moment: 'en',
+    })
   };
 });
 jest.mock('tsx-control-statements/components', () => {
@@ -67,6 +70,13 @@ jest.mock('common/stores/user-map', () => {
   })
 });
 
+process.env = Object.assign(process.env, {
+  mainVersion: 'mainVersion',
+});
+Object.defineProperty(window.document, 'cookie', {
+  writable: true,
+  value: 'OPENAPI-CSRF-TOKEN=OPENAPI-CSRF-TOKEN',
+});
 const customGlobal: GlobalWithFetchMock = (global as unknown) as GlobalWithFetchMock;
 customGlobal.TextDecoder = TextDecoder;
 customGlobal.TextEncoder = TextEncoder;
