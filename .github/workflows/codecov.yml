@@ -41,7 +41,8 @@ jobs:
           npm ci
           npm run test:coverage
           npm run copy:coverage
-          find coverage
 
       - name: Codecov
         uses: codecov/codecov-action@v1.4.1
+        with:
+          file: ./coverage.yml
