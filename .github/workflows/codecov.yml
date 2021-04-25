@@ -3,7 +3,7 @@ name: codecov
 # Controls when the action will run.
 on:
   push:
-    branches: [ feature/* ]
+    branches: [ develop ]
     paths:
       - shell/app/common/**
   pull_request:
