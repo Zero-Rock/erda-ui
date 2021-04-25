@@ -34,6 +34,7 @@ const loginUser:ILoginUser = {
   isSysAdmin: false,
 };
 
+
 describe('Avatar', () => {
   userStore.reducers.setLoginUser(loginUser);
   const sizeResult = (size = 24) => ({ height: `${size}px`, width: `${size}px` });
