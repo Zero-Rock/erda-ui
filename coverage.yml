@@ -22,5 +22,4 @@ coverage:
         only_pulls: false
 
 github_checks:
-<<<<<<< HEAD
   annotations: true
