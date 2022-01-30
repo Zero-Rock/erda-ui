@@ -35,6 +35,9 @@ jest.mock('i18n', () => {
     getCurrentLocale: () => ({
       moment: 'en',
     }),
+    addResourceBundle: () => {},
+    init: () => {},
+    getLang: () => {},
   };
 });
 

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import { getLabel } from 'common/utils';
+import { getLabel } from 'common/utils/component-utils';
 
 describe('getLabel', () => {
   const label = 'i am a label';
