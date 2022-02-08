@@ -11,17 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { qs, mergeSearch, updateSearch, setSearch } from 'common/utils';
-import { createBrowserHistory } from 'history';
-import { setConfig, getConfig } from 'core/config';
+import { mergeSearch, qs, setSearch, updateSearch } from 'common/utils';
+import * as GoTo from 'common/utils/go-to';
 
 describe('query-string', () => {
   beforeAll(() => {
-    const browserHistory = createBrowserHistory();
-    setConfig('history', browserHistory);
+    jest.mock('common/utils/go-to');
   });
   afterAll(() => {
-    setConfig('history', undefined);
+    jest.clearAllMocks();
   });
   it('qs.parse', () => {
     expect(qs.parse(process.env.mock_search)).toEqual({ id: '1' });
@@ -47,13 +45,19 @@ describe('query-string', () => {
     expect(mergeSearch({ orgName: 'erda' }, false, true)).toEqual({ orgName: 'erda' });
   });
   it('updateSearch', () => {
-    const history = getConfig('history');
+    const goTo = jest.fn();
+    Object.defineProperty(GoTo, 'goTo', {
+      value: goTo,
+    });
     updateSearch({ orgName: 'erda' });
-    expect(history.location.search).toContain('orgName=erda');
+    expect(goTo).toHaveBeenCalled();
   });
   it('setSearch', () => {
-    const history = getConfig('history');
-    setSearch({ orgName: 'erda' });
-    expect(history.location.search).toContain('orgName=erda');
+    const goTo = jest.fn();
+    Object.defineProperty(GoTo, 'goTo', {
+      value: goTo,
+    });
+    setSearch({ orgName: 'erda' }, [], true);
+    expect(goTo).toHaveBeenLastCalledWith(`${process.env.mock_pathname}?orgName=erda`, { replace: true });
   });
 });

@@ -13,11 +13,12 @@
 
 import React from 'react';
 import { Copy } from 'common';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { message } from 'antd';
 
 const copyText = 'hello world';
 describe('Copy', () => {
+  let instance: Copy | null;
   it('render copy with string children', () => {
     const spySuccess = jest.spyOn(message, 'success');
     const spyError = jest.spyOn(message, 'error');
@@ -28,23 +29,44 @@ describe('Copy', () => {
     const trigger = {
       getAttribute,
     };
-    const wrapper = mount(
-      <Copy selector="for_copy-select" className="cursor-copy" copyText="Copy" onError={onError} onSuccess={onSuccess}>
+    const wrapper = render(
+      <Copy
+        ref={(node) => {
+          instance = node;
+        }}
+        selector="for_copy-select"
+        className="cursor-copy"
+        copyText={copyText}
+        onError={onError}
+        onSuccess={onSuccess}
+      >
         copy
       </Copy>,
     );
-    wrapper.setProps({
-      copyText,
-    });
-    expect(wrapper.find('span.cursor-copy').length).toEqual(1);
-    expect(wrapper.find('span.cursor-copy').prop('data-clipboard-text')).toBe(copyText);
-    wrapper.find('Copy').instance().clipboard.emit('error', { trigger });
+    expect(wrapper.container.querySelectorAll('span.cursor-copy').length).toEqual(1);
+    expect(wrapper.container.querySelector('span.cursor-copy')?.getAttribute('data-clipboard-text')).toBe(copyText);
+    instance?.clipboard.emit('error', { trigger });
     expect(onError).toHaveBeenCalled();
     expect(spyError).toHaveBeenCalled();
-    wrapper.find('Copy').instance().clipboard.emit('success', { trigger, clearSelection });
+    instance?.clipboard.emit('success', { trigger, clearSelection });
     expect(onSuccess).toHaveBeenCalled();
     expect(clearSelection).toHaveBeenCalled();
     expect(spySuccess).toHaveBeenCalled();
+    wrapper.rerender(
+      <Copy
+        ref={(node) => {
+          instance = node;
+        }}
+        selector="for_copy-select"
+        className="cursor-copy"
+        copyText={copyText}
+        onError={onError}
+        onSuccess={onSuccess}
+      >
+        <div className="copy-child">copy</div>
+      </Copy>,
+    );
+    expect(wrapper.container.querySelectorAll('.copy-child').length).toEqual(1);
     spySuccess.mockReset();
     spyError.mockReset();
     wrapper.unmount();

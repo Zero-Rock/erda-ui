@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon should render color icon 1`] = `
+<div>
+  <svg
+    aria-hidden="true"
+    class="icon icon-class"
+  >
+    <use
+      xlink:href="#icon-loading"
+    />
+  </svg>
+</div>
+`;
+
+exports[`icon should type is preset 1`] = `
+<div>
+  <iconpark-icon
+    color="currentColor"
+    fill="currentColor"
+    name="xuqiu"
+    size="20px"
+    stroke="currentColor"
+  />
+</div>
+`;

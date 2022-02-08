@@ -37,6 +37,7 @@ module.exports = {
     '^.+\\jsx?$': 'babel-jest',
     mjs$: 'babel-jest',
     i18n$: 'babel-jest',
+    'common/utils/axios-config$': 'babel-jest',
     [micromark]: 'babel-jest',
   },
   globals: {
@@ -71,7 +72,7 @@ module.exports = {
     'app/charts/theme$': '<rootDir>/app/charts/theme.js',
     'app/config-page/img-map$': '<rootDir>/app/config-page/img-map.ts',
     'app/menus$': '<rootDir>/app/menus/index.ts',
-    'app/user/stores': '<rootDir>/app/user/stores/index.ts',
+    'app/user/stores$': '<rootDir>/app/user/stores/index.ts',
     'app/layout/stores(.*)': '<rootDir>/app/layout/stores/$1',
     'app/org-home/stores/org': '<rootDir>/app/org-home/stores/org.tsx',
     'application/common/config': '<rootDir>/app/modules/application/common/config.ts',

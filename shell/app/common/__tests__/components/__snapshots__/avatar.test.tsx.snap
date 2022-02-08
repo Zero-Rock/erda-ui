@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Avatar should support useLoginUser  1`] = `
+<div>
+  <span>
+    <img
+      alt="user-avatar"
+      class="dice-avatar avatar-comp"
+      src="//terminus-paas.oss-cn-hangzhou.aliyuncs.com/uc/2017/08/04/f1d1edb4-a841-4b1b-bf68-3f5c6f6fcf17.jpeg?x-oss-process=image/resize,w_28"
+      style="width: 24px; height: 24px;"
+    />
+  </span>
+</div>
+`;
+
+exports[`Avatar should support wrapClassName  1`] = `
+<div>
+  <svg
+    aria-hidden="true"
+    class="icon dice-avatar avatar-comp"
+    style="width: 24px; height: 24px;"
+  >
+    <use
+      xlink:href="#icon-head5"
+    />
+  </svg>
+</div>
+`;

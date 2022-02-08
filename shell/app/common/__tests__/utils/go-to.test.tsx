@@ -11,8 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { resolvePath, goTo } from 'common/utils';
-import { setConfig } from 'core/config';
+import { goTo, resolvePath } from 'common/utils';
 
 describe('go-to', () => {
   let open: any;

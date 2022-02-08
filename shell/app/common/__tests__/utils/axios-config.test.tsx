@@ -13,9 +13,11 @@
 
 import { initAxios } from 'common/utils/axios-config';
 import axios from 'axios';
+import { setGlobal } from 'core/global-space';
 
 describe('initAxios', () => {
   beforeEach(() => {
+    setGlobal('service-provider', 'ERDA');
     initAxios();
   });
   it('request interceptors should work well', () => {
@@ -69,7 +71,6 @@ describe('initAxios', () => {
       data: { data: { list: [], total: 0 } },
     });
     const error = await rejected({ response: { status: 401 } }).catch((e) => e);
-    expect(location.href).toBe('/login');
     expect(error).toStrictEqual({ response: { status: 401 } });
   });
 });

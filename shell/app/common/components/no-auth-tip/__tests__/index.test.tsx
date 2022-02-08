@@ -12,27 +12,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { NoAuthTip } from 'common';
-import { shallow } from 'enzyme';
+import NoAuthTip from '../index';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('NoAuthTip', () => {
   it('render with no children', () => {
-    const wrapper = shallow(<NoAuthTip />);
-    expect(wrapper.children()).not.toExist();
+    const wrapper = render(<NoAuthTip />);
+    expect(wrapper.container.firstChild).toBeNull();
   });
   it('render with children', () => {
     const onClick = jest.fn();
-    const wrapper = shallow(
+    const wrapper = render(
       <NoAuthTip>
-        <button onClick={onClick} className="buttons">
+        <div onClick={onClick} className="buttons">
           click me
-        </button>
+        </div>
       </NoAuthTip>,
     );
-    expect(wrapper.find('.buttons')).toHaveClassName('not-allowed');
-    expect(wrapper.find('.buttons').prop('disabled')).toBe(true);
-    expect(wrapper.find('.buttons').prop('onClick')).toBeFalsy();
-    wrapper.find('.buttons').simulate('click');
+    expect(wrapper.container.querySelector('.buttons')?.classList.value.includes('not-allowed')).toBeTruthy();
+    userEvent.hover(screen.getByText('click me'));
+    waitFor(() => {
+      expect(screen.getByRole('tooltip').innerHTML).toBe('no permission');
+    });
+    fireEvent.click(screen.getByText('click me'));
     expect(onClick).not.toHaveBeenCalled();
   });
 });

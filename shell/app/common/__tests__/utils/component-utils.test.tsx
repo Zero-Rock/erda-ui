@@ -12,26 +12,32 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen, waitFor } from '@testing-library/react';
 import { getLabel } from 'common/utils/component-utils';
+import userEvent from '@testing-library/user-event';
 
 describe('getLabel', () => {
   const label = 'i am a label';
   const tips = 'i an a tips';
+  beforeEach(() => {});
   it('should only label', () => {
     expect(getLabel(label)).toBe(label);
   });
-  it('should not show tips', () => {
+  it('should not show tips', async () => {
     const Comp = getLabel(label, tips, false);
-    const wrapper = shallow(<div>{Comp}</div>);
-    expect(wrapper.find('span').text()).toContain(label);
-    expect(wrapper).not.toContain(label);
+    const result = render(<div>{Comp}</div>);
+    userEvent.hover(result.container.querySelector('iconpark-icon')!);
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip').innerHTML).toBe(tips);
+    });
   });
-  it('should not show tips', () => {
+  it('should not show tips', async () => {
     const Comp = getLabel(label, tips, true);
-    const wrapper = shallow(<div>{Comp}</div>);
-    expect(wrapper.find('span').at(0).text()).toContain(label);
-    expect(wrapper.find('span').at(1).text()).toContain('*');
-    expect(wrapper.find('Tooltip').prop('title')).toBe(tips);
+    const result = render(<div>{Comp}</div>);
+    expect(result.getByText('*').textContent).toEqual('*');
+    userEvent.hover(result.container.querySelector('iconpark-icon')!);
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip').innerHTML).toBe(tips);
+    });
   });
 });

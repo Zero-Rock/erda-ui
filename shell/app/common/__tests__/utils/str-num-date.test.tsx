@@ -12,20 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen, waitFor } from '@testing-library/react';
 import {
   camel2DashName,
-  getStrRealLen,
-  px2Int,
-  getDateDuration,
   cutStr,
-  secondsToTime,
   daysRange,
-  fromNow,
-  getTimeSpan,
   formatTime,
+  fromNow,
+  getDateDuration,
+  getStrRealLen,
+  getTimeSpan,
+  px2Int,
+  secondsToTime,
 } from 'common/utils';
 import moment from 'moment';
+import userEvent from '@testing-library/user-event';
 
 const title = 'erda cloud';
 
@@ -54,11 +55,13 @@ describe('str-num-date', () => {
     expect(getDateDuration('2021-04-24 12:12:12', '2021-04-24 12:12:20')).toBe('8 second(s)');
     expect(getDateDuration('2021-04-24 12:12:12', '2021-04-24 12:13:12')).toBe('a minute');
   });
-  it('cutStr', () => {
+  it('cutStr', async () => {
     expect(cutStr(null)).toBe('');
-    const wrapper = shallow(<div>{cutStr(title, 0, { suffix: '...', showTip: true })}</div>);
-    expect(wrapper.find('Tooltip').prop('title')).toBe(title);
-    expect(wrapper.find('Tooltip').children().text()).toBe('...');
+    render(<>{cutStr(title, 0, { suffix: '...', showTip: true })}</>);
+    userEvent.hover(screen.getByText('...'));
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip').innerHTML).toBe(title);
+    });
   });
   it('secondsToTime', () => {
     expect(secondsToTime()).toBeUndefined();
@@ -79,17 +82,24 @@ describe('str-num-date', () => {
     };
     testDaysRange(1);
   });
-  it('fromNow', () => {
+  it('fromNow', async () => {
     const curr = moment();
-    const wrapper = shallow(
-      <div>
-        {fromNow(curr)}
-        {fromNow(curr, { prefix: title })}
-      </div>,
+    render(
+      <>
+        <div>{fromNow(curr)}</div>
+        <div>{fromNow(curr, { prefix: title })}</div>
+      </>,
     );
-    expect(wrapper.find('Tooltip').at(0).prop('title')).toBe(curr.format('YYYY-MM-DD HH:mm:ss'));
-    expect(wrapper.find('Tooltip').at(0).children().text()).toBe(curr.fromNow());
-    expect(wrapper.find('Tooltip').at(1).prop('title')).toBe(`${title}${curr.format('YYYY-MM-DD HH:mm:ss')}`);
+    const [result1, result2] = await screen.findAllByText(curr.fromNow());
+    userEvent.hover(result1);
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip').innerHTML).toBe(curr.format('YYYY-MM-DD HH:mm:ss'));
+    });
+    userEvent.unhover(result1);
+    userEvent.hover(result2);
+    await waitFor(() => {
+      expect(screen.getAllByRole('tooltip')[1].innerHTML).toBe(`${title}${curr.format('YYYY-MM-DD HH:mm:ss')}`);
+    });
   });
   it('getTimeSpan', () => {
     const start = moment('2021-04-20 12:00:00');
