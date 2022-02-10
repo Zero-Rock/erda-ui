@@ -37,6 +37,7 @@ module.exports = {
     '^.+\\jsx?$': 'babel-jest',
     mjs$: 'babel-jest',
     i18n$: 'babel-jest',
+    'url-invite-modal$': 'babel-jest',
     'common/utils/axios-config$': 'babel-jest',
     [micromark]: 'babel-jest',
   },

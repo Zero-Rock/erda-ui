@@ -422,6 +422,7 @@ importers:
       mockdate: ^3.0.5
       mockjs: ^1.0.1-beta3
       moment: ^2.18.1
+      mq-polyfill: ^1.1.8
       node-notifier: ^10.0.0
       openapi-types: ^9.1.0
       optimize-css-assets-webpack-plugin: ^5.0.4
@@ -562,6 +563,7 @@ importers:
       mochawesome-report-generator: 5.2.0
       mockdate: 3.0.5
       mockjs: 1.1.0
+      mq-polyfill: 1.1.8
       playwright: 1.14.0
       react-test-renderer: 17.0.2_react@16.14.0
       ts-jest: 27.1.3_ab4773bfce99e45a6969f80de677f862
@@ -20538,6 +20540,13 @@ packages:
       rimraf: 2.7.1
       run-queue: 1.0.3
     dev: false
+
+  /mq-polyfill/1.1.8:
+    resolution: {integrity: sha1-wUQZCyEhS/jYsJnn405soriI3BQ=}
+    engines: {node: '>=6.*'}
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /mri/1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}

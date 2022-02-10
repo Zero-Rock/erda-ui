@@ -11,13 +11,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import { LoadingSkeleton } from 'common';
-import { mount } from 'enzyme';
+import { getUploadProps } from '../upload-props';
+import { getOrgFromPath } from 'common/utils';
 
-describe('loading-skeleton', () => {
-  it('LoadingSkeleton should render well', () => {
-    const wrapper = mount(<LoadingSkeleton />);
-    expect(wrapper).toMatchSnapshot();
+describe('getUploadProps', () => {
+  it('upload props should work fine', () => {
+    const result = getUploadProps({});
+    expect(result.action).toBe('/api/files');
+    expect(result.headers).toStrictEqual({
+      'OPENAPI-CSRF-TOKEN': 'OPENAPI-CSRF-TOKEN',
+      org: getOrgFromPath(),
+    });
+    expect(result.beforeUpload({ size: 20971550 })).toBe(false);
+    expect(document.querySelectorAll('.ant-message-notice').length).toBeTruthy();
+    expect(result.beforeUpload({ size: 10 })).toBe(true);
   });
 });

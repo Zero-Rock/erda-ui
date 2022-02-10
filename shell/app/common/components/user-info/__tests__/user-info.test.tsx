@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { UserInfo } from 'common';
-import { shallow } from 'enzyme';
+import UserInfo from '..';
+import { render } from '@testing-library/react';
 import userStore from 'core/stores/userMap';
 
 describe('user-info', () => {
@@ -38,15 +38,15 @@ describe('user-info', () => {
     jest.resetAllMocks();
   });
   it('fullData', () => {
-    const wrapper = shallow(<UserInfo id={1} />);
-    expect(wrapper.text()).toEqual('nick-dice');
+    const wrapper = render(<UserInfo id={1} />);
+    expect(wrapper.getAllByText('nick-dice').length).toBe(1);
   });
   it('onlyName', () => {
-    const wrapper = shallow(<UserInfo id={2} />);
-    expect(wrapper.text()).toEqual('name-dice');
+    const wrapper = render(<UserInfo id={2} />);
+    expect(wrapper.getAllByText('name-dice').length).toBe(1);
   });
   it('onlyNick', () => {
-    const wrapper = shallow(
+    const wrapper = render(
       <UserInfo
         id={3}
         render={(data, id) => {
@@ -59,10 +59,10 @@ describe('user-info', () => {
         }}
       />,
     );
-    expect(wrapper.find('.render-comp').length).toEqual(1);
+    expect(wrapper.container.querySelectorAll('.render-comp').length).toBe(1);
   });
   it('noData', () => {
-    const wrapper = shallow(<UserInfo id={4} />);
-    expect(wrapper.text()).toEqual('4');
+    const wrapper = render(<UserInfo id={4} />);
+    expect(wrapper.container.textContent).toEqual('4');
   });
 });

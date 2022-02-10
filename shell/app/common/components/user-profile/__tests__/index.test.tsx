@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { UserProfile } from 'common';
-import { shallow } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 
 const loginUser = {
   id: '123456',
@@ -26,9 +26,11 @@ const loginUser = {
 
 describe('UserProfile', () => {
   it('should support showName ', () => {
-    const wrapper = shallow(<UserProfile data={loginUser} />);
-    expect(wrapper.find('.erda-user-profile')).toExist();
-    expect(wrapper.find({ alt: 'user-avatar' }).prop('src')).toContain(loginUser.avatar);
-    // TODO: add more
+    const spyOpen = jest.spyOn(window, 'open').mockImplementation(() => ({} as Window));
+    const wrapper = render(<UserProfile data={loginUser} />);
+    expect(wrapper.container.querySelectorAll('.erda-user-profile').length).toBeGreaterThan(0);
+    fireEvent.click(wrapper.container.querySelector('.name-warp')!);
+    expect(spyOpen).toHaveBeenCalled();
+    spyOpen.mockClear();
   });
 });

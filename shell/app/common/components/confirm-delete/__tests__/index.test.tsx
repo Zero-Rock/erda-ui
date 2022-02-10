@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { ConfirmDelete } from 'common';
-import { shallow, mount } from 'enzyme';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import i18n from 'i18n';
 
 const deleteItem = 'project';
@@ -23,23 +24,16 @@ const title = 'this is a title';
 const defaultConfirmTip = i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', {
   deleteItem,
 });
-const defaultSecondTitle = i18n.t('common:{deleteItem} cannot be restored after deletion. Continue?', {
-  deleteItem,
-});
-const defaultTitle = i18n.t('common:confirm to delete current {deleteItem}', { deleteItem });
 
 describe('ConfirmDelete', () => {
   it('render with default props ', () => {
-    const wrapper = shallow(<ConfirmDelete deleteItem={deleteItem} />);
-    expect(wrapper.find('.text-desc').text()).toBe(defaultConfirmTip);
-    const temp = shallow(<div>{wrapper.find('Modal').prop('title')}</div>);
-    expect(temp.html()).toContain(defaultTitle);
-    expect(wrapper.find('p').text()).toBe(defaultSecondTitle);
+    const wrapper = render(<ConfirmDelete deleteItem={deleteItem} />);
+    expect(wrapper.container.querySelector('.text-desc')?.innerHTML).toBe(defaultConfirmTip);
   });
-  it('render with customize props', () => {
+  it('render with customize props', async () => {
     const onConfirmFn = jest.fn();
     const onCancelFn = jest.fn();
-    const wrapper = mount(
+    const wrapper = render(
       <ConfirmDelete
         onConfirm={onConfirmFn}
         onCancel={onCancelFn}
@@ -51,18 +45,15 @@ describe('ConfirmDelete', () => {
         <div className="confirm-children" />
       </ConfirmDelete>,
     );
-    expect(wrapper.find('.text-desc').text()).toBe(confirmTip);
-    expect(wrapper.find('.confirm-children')).toExist();
-    wrapper.find('span').at(0).simulate('click');
-    expect(wrapper.find('p.mb-2').at(0).text()).toBe(secondTitle);
-    expect(wrapper.find('.ant-modal-title').at(0).text()).toContain(title);
-    expect(wrapper.find('Modal').prop('visible')).toBeTruthy();
-    wrapper.find('.ant-modal-footer').children().at(1).simulate('click');
+    expect(wrapper.container.querySelector('.text-desc')?.innerHTML).toBe(confirmTip);
+    expect(wrapper.container.querySelectorAll('.confirm-children').length).toBe(1);
+    fireEvent.click(wrapper.container.querySelector('.confirm-children')!);
+    await waitFor(() => expect(wrapper.queryByText(title)).toBeInTheDocument());
+    fireEvent.click(screen.getByText('ok'));
     expect(onConfirmFn).toHaveBeenCalled();
-    expect(wrapper.find('Modal').prop('visible')).toBeFalsy();
-    wrapper.find('span').at(0).simulate('click');
-    wrapper.find('.ant-modal-footer').children().at(0).simulate('click');
+    fireEvent.click(wrapper.container.querySelector('.confirm-children')!);
+    await waitFor(() => expect(wrapper.queryByText(title)).toBeInTheDocument());
+    fireEvent.click(screen.getByText('cancel'));
     expect(onCancelFn).toHaveBeenCalled();
-    expect(wrapper.find('Modal').prop('visible')).toBeFalsy();
   });
 });

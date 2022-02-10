@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { CompSwitcher } from 'common';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
 const comps: COMMON.SlideComp[] = [
   {
@@ -28,25 +28,25 @@ const comps: COMMON.SlideComp[] = [
 
 describe('CompSwitcher', () => {
   it('should render comp', () => {
-    const wrapper = mount(
+    const wrapper = render(
       <div>
         <CompSwitcher comps={comps}>
           <div className="comp-switcher-child" />
         </CompSwitcher>
       </div>,
     );
-    expect(wrapper.find('.comp-1')).toExist();
-    expect(wrapper.find('.comp-switcher-child')).not.toExist();
+    expect(wrapper.container.querySelectorAll('.comp-1').length).toBe(1);
+    expect(wrapper.container.querySelectorAll('.comp-switcher-child').length).toBe(0);
     wrapper.unmount();
   });
   it('should render children', () => {
-    const wrapper = mount(
+    const wrapper = render(
       <div>
         <CompSwitcher comps={[]}>
           <div className="comp-switcher-child" />
         </CompSwitcher>
       </div>,
     );
-    expect(wrapper.find('.comp-switcher-child')).toExist();
+    expect(wrapper.container.querySelectorAll('.comp-switcher-child').length).toBe(1);
   });
 });

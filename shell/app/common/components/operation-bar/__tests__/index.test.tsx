@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { OperationBar } from 'common';
-import { shallow, mount } from 'enzyme';
+import OperationBar from '..';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 const searchList = [
   {
@@ -27,17 +27,16 @@ const searchList = [
 
 describe('OperationBar', () => {
   it('should render empty', () => {
-    const wrapper = shallow(<OperationBar searchList={[]} />);
-    expect(wrapper).toBeEmptyRender();
+    const wrapper = render(<OperationBar searchList={[]} />);
+    expect(wrapper.container.firstChild).toBeNull();
   });
   it('should render well', () => {
     const fn = jest.fn();
-    const wrapper = mount(<OperationBar searchList={searchList} onUpdateOps={fn} />);
-    expect(wrapper.find('FormItem')).toHaveLength(4);
-    wrapper.find('Input').simulate('change', { target: { value: 'erda' } });
-    wrapper.find('Button.ops-bar-btn[type="primary"]').simulate('click');
-    expect(fn).toHaveBeenLastCalledWith({ title: 'erda' });
-    wrapper.find('Button.ops-bar-reset-btn').simulate('click');
+    const wrapper = render(<OperationBar searchList={searchList} onUpdateOps={fn} />);
+    fireEvent.click(screen.getByText('reset'));
     expect(fn).toHaveBeenLastCalledWith({});
+    fireEvent.change(wrapper.container.querySelector('input')!, {target: {value: 'erda'}})
+    fireEvent.click(screen.getByText('search'));
+    expect(fn).toHaveBeenLastCalledWith({ title: 'erda' });
   });
 });

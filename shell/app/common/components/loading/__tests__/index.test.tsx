@@ -11,19 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { getUploadProps } from '../../utils/upload-props';
-import { getOrgFromPath } from 'common/utils';
+import React from 'react';
+import Loading from '../index';
+import { render } from '@testing-library/react';
 
-describe('getUploadProps', () => {
-  it('upload props should work fine', () => {
-    const result = getUploadProps({});
-    expect(result.action).toBe('/api/files');
-    expect(result.headers).toStrictEqual({
-      'OPENAPI-CSRF-TOKEN': 'OPENAPI-CSRF-TOKEN',
-      org: getOrgFromPath(),
-    });
-    expect(result.beforeUpload({ size: 20971550 })).toBe(false);
-    expect(document.querySelectorAll('.ant-message-notice').length).toBeTruthy();
-    expect(result.beforeUpload({ size: 10 })).toBe(true);
+describe('Loading', () => {
+  it('should be defined', () => {
+    expect(Loading).toBeDefined();
+  });
+  it('should render well', () => {
+    const result = render(<Loading />);
+    expect(result.container).toMatchSnapshot();
   });
 });

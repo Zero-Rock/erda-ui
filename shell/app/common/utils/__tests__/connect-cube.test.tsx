@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { connectCube } from 'common/utils';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
 const Comp = (props = {}) => {
   return <div {...props}>Comp</div>;
@@ -29,11 +29,11 @@ describe('connectCube', () => {
       };
     };
     const C = WrapComp(mapper);
-    const wrapper = mount(
+    const wrapper = render(
       <div>
         <C />
       </div>,
     );
-    expect(wrapper.find('.connect-cube')).toExist();
+    expect(wrapper.container.querySelectorAll('.connect-cube').length).toBe(1);
   });
 });

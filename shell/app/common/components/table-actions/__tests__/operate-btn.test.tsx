@@ -12,56 +12,57 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TableActions } from 'common';
-import { shallow } from 'enzyme';
+import TableActions from '..';
+import { fireEvent, render } from '@testing-library/react';
 
-describe('OperationBtn', () => {
+describe('TableActions', () => {
   const getWrapper = (props = {}, onClick = () => {}) => {
-    return shallow(
+    return render(
       <TableActions {...props}>
         <a className="btns btns1" href="" onClick={onClick}>
           btn1
         </a>
         <a className="btns btns2" href="">
-          btn1
+          btn2
         </a>
         <a className="btns btns3" href="">
-          btn1
+          btn3
         </a>
         <a className="btns btns4" href="">
-          btn1
+          btn4
         </a>
         <a className="btns btns5" href="">
-          btn1
+          btn5
         </a>
+        text
         <a className="btns btns6" href="">
-          btn1
+          btn6
         </a>
       </TableActions>,
     );
   };
   it('should render with default props', () => {
-    // default Props: {limit: 3}
     const onClick = jest.fn();
     const wrapper = getWrapper({}, onClick);
-    expect(wrapper.find({ type: 'more' })).toExist();
-    wrapper.find('.btns1').simulate('click');
+    expect(wrapper.container.querySelectorAll('.btns').length).toBe(2);
+    expect(wrapper.getAllByLabelText('icon: more').length).toBe(1);
+    fireEvent.click(wrapper.getByLabelText('icon: more'));
+    fireEvent.click(wrapper.container.querySelector('.operator-dropdown-wrap')!);
+    fireEvent.click(wrapper.getByText('btn1'));
     expect(onClick).toHaveBeenCalled();
-    expect(wrapper.children('.btns')).toHaveLength(2);
   });
   it('should render with customize props', () => {
-    const stopPropagation = jest.fn();
     const more = <span className="more-operations">more-operations</span>;
     const wrapper = getWrapper({ limit: 4, ellipses: more, className: 'customize-class' });
-    expect(wrapper.find('.more-operations').text()).toBe('more-operations');
-    expect(wrapper).toHaveClassName('customize-class');
-    expect(wrapper.children('.btns')).toHaveLength(3);
-    wrapper.find('.operator-dropdown-wrap').simulate('click', { stopPropagation });
-    expect(stopPropagation).toHaveBeenCalledTimes(1);
+    expect(wrapper.container.querySelector('.more-operations')?.innerHTML).toBe('more-operations');
+    expect(wrapper.container.querySelectorAll('.btns').length).toBe(3);
+    expect(
+      wrapper.container.querySelector('.table-operations')?.classList.value.includes('customize-class'),
+    ).toBeTruthy();
   });
   it('should render with limit greater than the number of btns', () => {
     const more = <span className="more-operations">more-operations</span>;
     const wrapper = getWrapper({ limit: 8, ellipses: more, className: 'customize-class' });
-    expect(wrapper.children('.btns')).toHaveLength(6);
+    expect(wrapper.container.querySelectorAll('.btns').length).toBe(6);
   });
 });
