@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import AddonSettings from 'common/components/addon-settings';
+import AddonSettings from '..';
 import routeInfoStore from 'core/stores/route';
 import { render } from '@testing-library/react';
 import agent from 'agent';

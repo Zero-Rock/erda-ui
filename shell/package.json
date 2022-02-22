@@ -13,8 +13,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "test:coverage": "jest --verbose --coverage",
-    "test-local:coverage": "jest --verbose --coverage -c ./jest.config.local.js -u shell/app/common/__tests__/use-hook.test.tsx",
+    "test:coverage": "jest",
     "test:watch": "jest --verbose --watch",
     "auto-test": "npx playwright test --config=auto_test/playwright.config.ts --project=all",
     "debug-test": "PWDEBUG=1 npx playwright test --config=auto_test/playwright.config.ts --project=all",
@@ -206,8 +205,7 @@
     "webpack-merge": "^5.7.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write",
-    "app/common/**/*.{js,jsx,ts,tsx}": "npm run check-unit-test"
+    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"
   },
   "config": {
     "commitizen": {

@@ -27,7 +27,6 @@ describe('ErdaAlert', () => {
     const message = 'erda alert message';
     const result = render(<ErdaAlert message={message} closeable showOnceKey="erda-alert" />);
     expect(result.container.firstChild).not.toBeNull();
-    expect(result.container).toMatchSnapshot();
     expect(result.container.querySelectorAll('.ant-alert-close-icon').length).toBe(1);
     userEvent.click(result.container.querySelector('.hover-active')!);
     await waitFor(() => {

@@ -28,7 +28,6 @@ describe('icon', () => {
   it('should render color icon', () => {
     const onClick = jest.fn();
     const wrapper = render(<Icon type={iconType} color onClick={onClick} className="icon-class" />);
-    expect(wrapper.container).toMatchSnapshot();
     fireEvent.click(wrapper.container.querySelector('.icon')!);
     expect(onClick).toHaveBeenCalled();
     expect(wrapper.container.querySelector('svg')?.innerHTML).toBe(`<use xlink:href="#icon-${iconType}"></use>`);

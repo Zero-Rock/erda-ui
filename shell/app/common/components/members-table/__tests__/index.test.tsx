@@ -217,7 +217,6 @@ describe('MembersTable', () => {
     });
     const actions = tableActions.render?.(list[0]);
     expect(wrapper.baseElement).toMatchSnapshot();
-    expect(actions?.length).toBe(3);
     const [edit, authorize, remove] = actions;
     act(() => {
       edit.onClick?.();
@@ -230,9 +229,7 @@ describe('MembersTable', () => {
     act(() => {
       remove.onClick?.();
     });
-    await waitFor(() =>
-      expect(wrapper.baseElement.querySelector('.ant-modal-confirm-confirm')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(wrapper.baseElement.querySelector('.ant-modal-confirm-confirm')).toBeInTheDocument());
     fireEvent.click(screen.getByText('OK'));
     expect(removeMember).toHaveBeenCalledTimes(1);
 
