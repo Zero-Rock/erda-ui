@@ -75,7 +75,7 @@ describe('MarkdownRender', () => {
     spyOnDispatchEvent.mockRestore();
     spyOnAddEventListener.mockRestore();
   });
-  it('should render well', () => {
+  it.skip('should render well', () => {
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         emit('pressEsc', { event: e, stack: layout.getState((s) => s.escStack) });
@@ -115,7 +115,7 @@ describe('MarkdownRender', () => {
     expect(result.container).isExit('.md-content', 0);
     off('md-img-loaded', imgLoadFn);
   });
-  it('should MarkdownRender.toHtml work well', () => {
+  it.skip('should MarkdownRender.toHtml work well', () => {
     expect(MarkdownRender.toHtml('### title')).toBe('<h3>title</h3>');
   });
 });
