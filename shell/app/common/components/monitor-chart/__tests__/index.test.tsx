@@ -26,7 +26,7 @@ jest.mock('common/components/monitor/monitor-chart', () => {
 });
 describe('MonitorChart', () => {
   const loadMetricItem = metricsMonitorStore.effects.loadMetricItem;
-  beforeAll(() => {
+  afterAll(() => {
     jest.resetAllMocks();
     metricsMonitorStore.effects.loadMetricItem = loadMetricItem;
   });
