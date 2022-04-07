@@ -15,7 +15,8 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { fireEvent, render } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
 import { setConfig } from 'core/config';
-import { useDiff, useFormModal, useSwitch, useUpdate, useUpdateSearch } from '../use-hooks';
+import { notification } from 'antd';
+import { useDiff, useFormModal, useSwitch, useTempPaging, useUpdate, useUpdateSearch } from '../use-hooks';
 
 describe('use-hooks', () => {
   describe('useSwitch', () => {
@@ -149,6 +150,77 @@ describe('use-hooks', () => {
       expect(hook.result.current[0]).toStrictEqual({
         ...initialProps,
       });
+    });
+  });
+
+  describe('useTempPaging', () => {
+    const defaultPaging = {
+      pageNo: 1,
+      pageSize: 15,
+      total: 0,
+      hasMore: true,
+    };
+
+    const genResponse = (success: boolean, listKey: string, pageSiz: number) => {
+      return {
+        success,
+        data: {
+          total: 100,
+          [listKey]: new Array(pageSiz).fill(1),
+        },
+        err: success ? undefined : { msg: 'error' },
+      };
+    };
+
+    it('should work well when append is false', async () => {
+      const spyError = jest.spyOn(notification, 'error').mockImplementation();
+      const service = jest.fn();
+      const { result, rerender } = renderHook((props) => useTempPaging(props), {
+        initialProps: {
+          service: service.mockResolvedValue(genResponse(true, 'list', defaultPaging.pageSize)),
+        },
+      });
+      expect(result.current[0]).toStrictEqual([]);
+      expect(result.current[1]).toStrictEqual(defaultPaging);
+      expect(result.current[2]).toStrictEqual(false);
+      await act(async () => {
+        await result.current[3]();
+      });
+      expect(result.current[0]).toHaveLength(defaultPaging.pageSize);
+      expect(result.current[1]).toStrictEqual({
+        ...defaultPaging,
+        total: 100,
+        hasMore: true,
+      });
+      service.mockReset();
+      rerender({
+        service: service.mockResolvedValue(genResponse(false, 'list', defaultPaging.pageSize)),
+      });
+      await act(async () => {
+        await result.current[3]();
+      });
+      expect(spyError.mock.calls[0][0].message).toBe(genResponse(false, 'list', defaultPaging.pageSize).err?.msg);
+      result.current[4]();
+      expect(result.current[0]).toStrictEqual([]);
+      expect(result.current[1]).toStrictEqual(defaultPaging);
+      spyError.mockClear();
+    });
+    it('should work well when append is true', async () => {
+      const service = jest.fn();
+      const { result } = renderHook((props) => useTempPaging(props), {
+        initialProps: {
+          append: true,
+          service: service.mockResolvedValue(genResponse(true, 'list', defaultPaging.pageSize)),
+        },
+      });
+      await act(async () => {
+        await result.current[3]();
+      });
+      expect(result.current[0]).toHaveLength(defaultPaging.pageSize);
+      await act(async () => {
+        await result.current[3]();
+      });
+      expect(result.current[0]).toHaveLength(defaultPaging.pageSize * 2);
     });
   });
 
