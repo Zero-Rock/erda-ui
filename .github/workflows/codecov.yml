@@ -15,7 +15,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  pre-check:
+  preCheck:
     runs-on: ubuntu-latest
     steps:
       - name: filter path
@@ -29,6 +29,7 @@ jobs:
       isSkip: ${{ steps.filter.outputs.commonPath }}
   run-test:
     needs: pre-check
+    if: ${{ needs.preCheck.outputs.isSkip != 'true' }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -36,7 +37,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Dump GitHub context
         id: github_context_step
-        run: echo '${{ toJSON(needs) }}'
+        run: echo '${{ toJSON(job) }}'
       - name: checkout code
         uses: actions/checkout@v2
 
