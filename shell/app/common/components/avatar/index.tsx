@@ -34,7 +34,7 @@ const Avatar = (props: IProps) => {
   const { url, showName = false, useLoginUser = false, name, size = 24, className = '', wrapClassName = '' } = props;
   const isOccupiedShowName = showName === true;
   const loginUser = userStore.useStore((s) => s.loginUser);
-  const cls = classnames('dice-avatar', isOccupiedShowName ? 'mr4' : false, className);
+  const cls = classnames('dice-avatar', isOccupiedShowName ? 'mr-4' : false, className);
 
   let userName = useLoginUser ? loginUser.nick : name;
   userName = userName || '';
