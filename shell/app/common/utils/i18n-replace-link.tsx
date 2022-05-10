@@ -13,11 +13,6 @@
 
 import React from 'react';
 
-/**
- * @params str a string with []
- * @params href Jump link
- * example: ('this is a [test] string', 'www.test.com') => <div>this is a <a href="www.text.com">test<a> string</div>
- */
 export const replaceWithLink = (str: string, href: string) => {
   const matchArr = str.match(/\[.*?\]/g) || [];
   const reg = new RegExp(matchArr.join('|').replace(/\[/g, '\\[').replace(/\]/g, '\\]'), 'g');
