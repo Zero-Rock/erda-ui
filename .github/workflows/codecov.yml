@@ -66,8 +66,8 @@ jobs:
         run: |
           pwd
           ls
-          pnpm run test:coverage --filter shell1
-          pnpm run copy:coverage --filter shell1
+          pnpm run test:coverage --filter shell
+          pnpm run copy:coverage --filter shell
 
       - name: Codecov
         run: curl -s https://codecov.io/bash | bash
