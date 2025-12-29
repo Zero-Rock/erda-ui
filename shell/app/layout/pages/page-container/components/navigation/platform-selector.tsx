@@ -29,7 +29,7 @@ export const PlatformSelector = () => {
           {
             key: 'Trantor',
             label: 'Trantor',
-            desc: i18n.t('layout:Software building platform'),
+            desc: i18n.t('layout:Software creation platform'),
             imgURL: trantorIcon,
             herf: erdaEnv.TRANTOR_URL as string,
           },
@@ -38,7 +38,7 @@ export const PlatformSelector = () => {
     {
       key: 'Erda',
       label: 'Erda',
-      desc: i18n.t('layout:Application development management platform'),
+      desc: i18n.t('layout:Enterprise digital platform'),
       imgURL: erdaIcon,
     },
     {
